@@ -63,6 +63,7 @@ const TableManagement: React.FC = () => {
         setTables(response.data.tables || []);
         console.log(response.data.tables);
       } catch (err: any) {
+        console.log(err);
         setError(err.response?.data?.message || 'Failed to fetch tables');
       } finally {
         setIsLoading(false);
@@ -101,6 +102,7 @@ const TableManagement: React.FC = () => {
       resetForm();
     },
     onError: (error: any) => {
+      console.log(error);
       toast({
         title: 'Error',
         description: error.response?.data?.message || 'Failed to create table',
@@ -328,7 +330,7 @@ const TableManagement: React.FC = () => {
               Add Table
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[480px]">
+          <DialogContent className="sm:max-w-[480px] max-h-[80vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Add New Table</DialogTitle>
               <DialogDescription>
@@ -692,7 +694,7 @@ const TableManagement: React.FC = () => {
         if (!open) resetForm();
         setIsEditDialogOpen(open);
       }}>
-        <DialogContent className="sm:max-w-[480px]">
+        <DialogContent className="sm:max-w-[480px] max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Edit Table</DialogTitle>
             <DialogDescription>
