@@ -912,7 +912,7 @@ export default function DishesManagement() {
                   <TableRow key={dish.id}>
                     <TableCell>
                       {dish.image_path ? (
-                        <img src={import.meta.env.VITE_BACKEND_URL + '/storage/' + dish.image_path} alt={dish.name} className="h-12 w-12 rounded object-cover border" />
+                        <img src={dish.image_path} alt={dish.name} className="h-12 w-12 rounded object-cover border" />
                       ) : (
                         <div className="h-12 w-12 rounded bg-muted border flex items-center justify-center text-[10px] text-muted-foreground">No image</div>
                       )}

@@ -624,7 +624,7 @@ const TableManagement: React.FC = () => {
                     <TableCell>
                       {table.image_path ? (
                         <img
-                          src={import.meta.env.VITE_BACKEND_URL + '/storage/' + table.image_path}
+                          src={table.image_path}
                           alt={table.name}
                           className="h-12 w-12 object-cover rounded-md border"
                         />
