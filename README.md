@@ -1,70 +1,126 @@
-# Getting Started with Create React App
+# Borcella — Restaurant Management Dashboard (Web)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Professional, responsive admin dashboard for Borcella Restaurant. Built with Vite + React + TypeScript and TailwindCSS. It provides pages and components to manage users, roles, tables, reservations, categories, dishes, and orders. The app is structured for integration with a REST backend (API base URL configured via environment variable).
 
-## Available Scripts
+## Highlights
 
-In the project directory, you can run:
+- Fast development with Vite and React (TypeScript)
+- UI primitives and components adapted from shadcn/ui + Radix + Tailwind
+- Role-based navigation and protected routes
+- React Query for server-state and background fetching
+- Axios-backed API client with token interceptor
+- Rich management pages: Users, Roles, Tables, Reservations, Dishes, Orders, Categories
 
-### `npm start`
+## Demo / Screens
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Landing / marketing page (Index)
+- Login screen
+- Dashboard home with stats and quick actions
+- Full CRUD pages for Users, Tables, Categories, Dishes
+- Reservation and Orders management with filters and status updates
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Tech stack
 
-### `npm test`
+- Frontend: React 18, TypeScript, Vite
+- Styling: TailwindCSS, tailwind-merge
+- UI: shadcn styled primitives, Radix UI, Lucide icons
+- Data: Axios, @tanstack/react-query
+- Validation: Zod (present as a dependency)
+- Utilities: date-fns, lodash-like helpers
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Repository scripts
 
-### `npm run build`
+All scripts assume npm. This project was scaffolded for Vite (see `vite.config.ts`).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- `npm run dev` — start Vite dev server (port 8080 by default)
+- `npm run build` — build production assets
+- `npm run build:dev` — build with development mode
+- `npm run preview` — preview the production build locally
+- `npm run lint` — run ESLint over the project
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Environment variables
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The app reads the backend base URL from an environment variable. Add a `.env` file at the project root with the following variable:
 
-### `npm run eject`
+- `VITE_BACKEND_URL` — e.g. `https://api.example.com` (no trailing `/api`, the client appends `/api`)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Example .env (do not commit secrets):
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+VITE_BACKEND_URL=https://api.example.com
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Getting started (developer)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Clone the repository
+2. Install dependencies
 
-## Learn More
+- Using npm
+	- npm install
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. Create a `.env` file (see Environment variables above)
+4. Start the dev server
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- npm run dev
 
-### Code Splitting
+Open http://localhost:8080 in your browser (Vite is configured to use port 8080 in `vite.config.ts`).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Building for production
 
-### Analyzing the Bundle Size
+1. Ensure your `.env` is set for the target backend
+2. npm run build
+3. npm run preview (optional) to test the production build locally
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Key implementation notes
 
-### Making a Progressive Web App
+- API client: `src/api/api.js` — axios instance with request interceptor that reads token from `localStorage` and sets `Authorization: Bearer <token>` header.
+- Auth context: `src/contexts/AuthContext.tsx` — provides `user`, `login`, `logout`, and `isLoading`. On login the token and user are stored in localStorage.
+- Routing & protection: `src/App.tsx` — ProtectedRoute component shows the `LoginForm` when not authenticated and renders dashboard routes when authenticated.
+- Pages: `src/pages/dashboard/*` contain management UIs for users, roles, tables, reservations, categories, dishes and orders.
+- UI components: `src/components/ui/*` provide reusable building blocks (buttons, cards, tables, dialogs, toasts, etc.).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Environment & conventions
 
-### Advanced Configuration
+- Aliased imports: `@` resolves to `src/` (configured in `vite.config.ts`).
+- Port: Vite dev server set to `8080` and host `::` to accept IPv6/localhost requests.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Folder structure (top-level)
 
-### Deployment
+- src/
+	- api/         => API client and endpoints
+	- components/  => Reusable UI components and dashboard layout
+	- contexts/    => React contexts (Auth)
+	- hooks/       => Custom hooks (toasts, mobile, etc.)
+	- pages/       => Route pages (Index, NotFound, dashboard/*)
+	- types/       => TypeScript types for auth, table, etc.
+	- lib/         => small utilities (eg. tailwind helpers)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## How to use the app (brief)
 
-### `npm run build` fails to minify
+- Create a user with appropriate role via your backend admin API.
+- Set `VITE_BACKEND_URL` to point at your backend.
+- Open the app, login with the user credentials and navigate the dashboard.
+- Role-based navigation limits what each user type can access (admin, manager, cashier).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Tests
+
+- There are minimal test scaffolding files (Create React App leftovers). No unit tests implemented. Consider adding unit and e2e tests (Vitest + React Testing Library; Playwright/Cypress for e2e).
+
+## Recommended improvements / next steps
+
+- Add CI pipeline (GitHub Actions) for lint, typecheck, and build previews
+- Add environment-specific configurations for staging/production
+- Add automated tests (unit + e2e) and coverage reporting
+- Improve accessibility and add internationalization for labels (i18next already included)
+- Add a CONTRIBUTING.md and CODE_OF_CONDUCT for clearer collaboration
+
+## Contributing
+
+Contributions are welcome. Recommended workflow:
+
+1. Fork the repo
+2. Create a feature branch
+3. Run tests/lint and ensure types pass
+4. Open a pull request describing your changes
+
+## License
+
+This project currently has no license file. Consider adding an open-source license (MIT, Apache-2.0) or a proprietary license depending on your plan.
